@@ -1,0 +1,16 @@
+import {useState} from 'react';
+export const operations=[
+['init','Initialize τ, bestCost = ∞','فرومون اولیه را روی همه یال‌های معتبر قرار می‌دهیم.'],
+['iteration','for t = 1 to T:','یک تکرار آغاز می‌شود؛ ماتریس فرومون تا پایان ساخت مسیرها ثابت است.'],
+['startAnt','  for k = 1 to m: choose start','برای هر مورچه یک شهر شروع به‌صورت تصادفی انتخاب می‌شود.'],
+['probability','    while unvisited: compute P','وزن هر شهر بازدیدنشده از فرومون و معکوس فاصله محاسبه و نرمال می‌شود.'],
+['select','      j = WeightedRandom(P)','عدد تصادفی در یکی از بازه‌های تجمعی قرار می‌گیرد و شهر مقصد مشخص می‌شود.'],
+['move','      append j; remove j from unvisited','مورچه به شهر انتخاب‌شده می‌رود؛ آن شهر از نامزدها حذف می‌شود.'],
+['close','    append starting city','با بازگشت به شهر شروع، چرخه کامل می‌شود.'],
+['score','    L = cost(tour); update best','هزینه تمام یال‌ها محاسبه و بهترین جواب در صورت بهبود ذخیره می‌شود.'],
+['evaporate','  τ = (1 − ρ) × τ','پس از ساخت همه مسیرها، فرومون همه یال‌ها تبخیر می‌شود.'],
+['deposit','  for each tour: add Q/L to its edges','هر مورچه روی یال‌های مسیر کامل خود، در هر دو جهت، سهم فرومون می‌گذارد.'],
+['record','  record iteration statistics','بهترین هزینه تکرار و بهترین هزینه تجمعی ثبت می‌شوند.'],
+['finish','return bestTour, bestCost','پس از تعداد تکرار تعیین‌شده، بهترین جواب مشاهده‌شده برگردانده می‌شود.']];
+export function Pseudocode({active,compact=false}){const [chosen,setChosen]=useState('init');const id=active??chosen;const info=operations.find(o=>o[0]===id);return <div><div className={'pseudo '+(compact?'compact':'')} dir="ltr">{operations.map(([key,line],i)=><button key={key} type="button" disabled={active!=null} onClick={()=>setChosen(key)} className={id===key?'active':''}><span>{String(i+1).padStart(2,'0')}</span><code>{line}</code></button>)}</div><p className="pseudo-note">{info?.[2]}</p></div>}
+export function Flowchart(){return <svg viewBox="0 0 370 490" className="flowchart" role="img" aria-label="فلوچارت الگوریتم سیستم مورچگان"><defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0 0L6 3L0 6Z" fill="#64748b"/></marker></defs>{[['شروع',20],['مقداردهی فرومون',77],['ساخت مسیر همه مورچه‌ها',134],['محاسبه هزینه و بهترین جواب',191],['تبخیر فرومون',248],['افزودن سهم همه مورچه‌ها',305]].map(([t,y],i)=><g key={t}><rect x="55" y={y} width="260" height="38" rx="11" fill={i===0?'#dbeafe':i>3?'#fef3c7':'#f5f3ff'} stroke={i>3?'#f59e0b':'#a5b4fc'}/><text x="185" y={y+24} textAnchor="middle" fontSize="13" fill="#1e293b">{t}</text><path d={`M185 ${y+38}v19`} stroke="#64748b" fill="none" markerEnd="url(#arrow)"/></g>)}<path d="M185 362L280 395L185 428L90 395Z" fill="#eff6ff" stroke="#2563eb"/><text x="185" y="399" textAnchor="middle" fontSize="13">پایان تکرارها؟</text><path d="M280 395H345V153H315" fill="none" stroke="#64748b" markerEnd="url(#arrow)"/><text x="329" y="380" textAnchor="middle" fontSize="12">خیر</text><path d="M185 428v19" stroke="#64748b" markerEnd="url(#arrow)"/><text x="206" y="443" fontSize="11">بله</text><rect x="80" y="449" width="210" height="34" rx="10" fill="#dcfce7" stroke="#10b981"/><text x="185" y="471" textAnchor="middle" fontSize="13">بازگرداندن بهترین جواب</text></svg>}
